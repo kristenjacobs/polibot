@@ -3,7 +3,7 @@ build:
 	docker build -t kristenfjacobs/polibot:1.0.0 .
 
 push:
-	docker push -t kristenfjacobs/polibot:1.0.0
+	docker push kristenfjacobs/polibot:1.0.0
 
 run:
 	docker run -d -p 8081:8081 --name polibot -t kristenfjacobs/polibot:1.0.0
