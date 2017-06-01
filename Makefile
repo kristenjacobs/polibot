@@ -16,7 +16,7 @@ clean:
 	rm -rf polibot
 
 deploy:
-	kubectl --kubeconfig=/Users/krisjaco/kube-admin.conf run polibot --image=kristenfjacobs/polibot:1.0.0 --replicas=1 --port=8081
+	kubectl --kubeconfig=/Users/krisjaco/kube-admin.conf run polibot --image=kristenfjacobs/polibot:1.0.0 --replicas=2 --port=8081
 	kubectl --kubeconfig=/Users/krisjaco/kube-admin.conf expose deployment polibot --name=polibot --type=NodePort
 
 undeploy:
