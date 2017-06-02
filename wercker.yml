@@ -14,13 +14,46 @@ dev:
 build:
   steps:
     - wercker/golint
-
-    - script:
-        name: go build
-        code: |
-          go build ./...
-
     - script:
         name: go test
         code: |
           go test ./...
+    - script:
+        name: go build
+        code: |
+          CGO_ENABLED=0 GOOS=linux go build -a ./...
+    - script:
+        name: copy binary
+        code: cp polibot "$WERCKER_OUTPUT_DIR"        
+    - internal/docker-scratch-push:
+        username: $DOCKERHUB_USERNAME
+        password: $DOCKERHUB_PASSWORD
+        cmd: /polibot
+        tag: $WERCKER_GIT_COMMIT
+        repository: kristenfjacobs/polibot
+        registry: https://registry.hub.docker.com
+
+deploy:
+  box: google/golang
+  steps:
+    - script:
+        name: Create certificates
+        code: |
+          echo $CERTIFICATE_AUTHORITY_DATA | base64 --decode > ca.pem
+          echo $CLIENT_CERTIFICATE_DATA    | base64 --decode > client.pem
+          echo $CLIENT_KEY_DATA            | base64 --decode > client-key.pem
+    - kubectl:
+        server: $KUBERNETES_MASTER
+        certificate-authority: ca.pem
+        client-certificate: client.pem
+        client-key: client-key.pem
+        command: delete deployment polibot
+    - kubectl:
+        server: $KUBERNETES_MASTER
+        certificate-authority: ca.pem
+        client-certificate: client.pem
+        client-key: client-key.pem
+        command: run polibot --image=kristenfjacobs/polibot:$WERCKER_GIT_COMMIT --replicas=2 --port=8081
+    - script:
+        name: Cleanup
+        code: rm -rf ca.pem client.pem client-key.pem
