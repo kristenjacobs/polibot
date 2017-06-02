@@ -25,6 +25,10 @@ build:
     - script:
         name: copy binary
         code: cp polibot "$WERCKER_OUTPUT_DIR"        
+
+deploy:
+  box: google/golang
+  steps:
     - internal/docker-scratch-push:
         username: $DOCKERHUB_USERNAME
         password: $DOCKERHUB_PASSWORD
@@ -32,10 +36,6 @@ build:
         tag: $WERCKER_GIT_COMMIT
         repository: kristenfjacobs/polibot
         registry: https://registry.hub.docker.com
-
-deploy:
-  box: google/golang
-  steps:
     - script:
         name: Create certificates
         code: |
@@ -43,12 +43,14 @@ deploy:
           echo $CLIENT_CERTIFICATE_DATA    | base64 --decode > client.pem
           echo $CLIENT_KEY_DATA            | base64 --decode > client-key.pem
     - kubectl:
+        debug: true
         server: $KUBERNETES_MASTER
         certificate-authority: ca.pem
         client-certificate: client.pem
         client-key: client-key.pem
         command: delete deployment polibot
     - kubectl:
+        debug: true
         server: $KUBERNETES_MASTER
         certificate-authority: ca.pem
         client-certificate: client.pem
