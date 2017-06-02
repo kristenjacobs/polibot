@@ -42,6 +42,9 @@ kube-status:
 # X_CLIENT_CERTIFICATE_DATA=...
 # X_CLIENT_KEY_DATA=...
 
+wercker-dev:
+	wercker dev --expose-ports
+
 wercker-build:
 	wercker --environment=wercker.env build
 
