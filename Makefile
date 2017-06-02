@@ -34,6 +34,9 @@ kube-status:
 	kubectl get services
 	kubectl describe services polibot
 
+kube-test:
+	while true; do curl 129.146.10.158; sleep 1; done
+
 # Note: Ensure we have a wercker.env file available with the following content:
 # X_DOCKERHUB_PASSWORD=...
 # X_DOCKERHUB_USERNAME=...

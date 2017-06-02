@@ -43,19 +43,13 @@ deploy:
           echo $CLIENT_CERTIFICATE_DATA    | base64 --decode > client.pem
           echo $CLIENT_KEY_DATA            | base64 --decode > client-key.pem
     - kubectl:
+        name: Deploy new image
         debug: true
         server: $KUBERNETES_MASTER
         certificate-authority: ca.pem
         client-certificate: client.pem
         client-key: client-key.pem
-        command: delete deployment polibot
-    - kubectl:
-        debug: true
-        server: $KUBERNETES_MASTER
-        certificate-authority: ca.pem
-        client-certificate: client.pem
-        client-key: client-key.pem
-        command: run polibot --image=kristenfjacobs/polibot:$WERCKER_GIT_COMMIT --replicas=2 --port=8081
+        command: set image deployment/polibot polibot=kristenfjacobs/polibot:$WERCKER_GIT_COMMIT
     - script:
         name: Cleanup
         code: rm -rf ca.pem client.pem client-key.pem
