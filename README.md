@@ -25,7 +25,8 @@ In order to deploy this application, we need a running Kubernetes cluster.
 
 See: https://kubernetes.io/docs/getting-started-guides/kubeadm/
 
-Create 3 machines, one master and 2 slaves. Note: The network that the BMC machines use must be configured to allow UDP traffic, i.e. add the following stateless ingress and egress rules:
+Create 3 machines, one master and 2 slaves, each using the Centos 7 (CentOS-7-2017.04.18-0) image, and having a shape of VM.Standard1.1. 
+Note: The network that the BMC machines use must be configured to allow UDP traffic, i.e. add the following stateless ingress and egress rules:
 
 ```
 Source: 10.0.0.0/8
