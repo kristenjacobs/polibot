@@ -8,10 +8,10 @@ import (
 
 func getResponseString() string {
 	acceptableResponse := []string{
-		"> Given this is an ongoing investigation, I am not about to comment on specifics.",
-		"> What we need is a full and frank discussion about the issues that really matter",
-		"> Lets be absolutely clear, nothing has changed in our manifesto",
-		"> What this country deserves is a strong and stable leadership",
+		"Given this is an ongoing investigation, I am not about to comment on specifics.",
+		"What we need is a full and frank discussion about the issues that really matter",
+		"Lets be absolutely clear, nothing has changed in our manifesto",
+		"What this country deserves is a strong and stable leadership",
 	}
 	return acceptableResponse[rand.Intn(len(acceptableResponse))]
 }
