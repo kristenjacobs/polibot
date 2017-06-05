@@ -1,3 +1,5 @@
+# To build, push, run, etc. the application using docker directly.
+
 docker-build:
 	CGO_ENABLED=0 GOOS=linux go build -a ./...
 	docker build -t kristenfjacobs/polibot:1.0.0 .
@@ -15,9 +17,10 @@ docker-clean:
 	docker rm -f polibot
 	rm -rf polibot
 
-# Note: For kubectl to work, we need to have the loctaion of the clusters config
-# file set in the environment, e.g.:
-# export KUBECONFIG=/Users/krisjaco/kube-admin.conf
+# Deploying to Kubernetes.
+# Note: For kubectl to work, we need to have the location of the clusters 
+# configuration file set in the environment, e.g.:
+# export KUBECONFIG=<path to kubernetes admin.conf>
 
 kube-deploy:
 	kubectl run polibot --image=kristenfjacobs/polibot:1.0.0 --replicas=2 --port=8081
@@ -37,6 +40,7 @@ kube-status:
 kube-test:
 	while true; do curl 129.146.10.158; sleep 1; done
 
+# Running the Wercker pipelines locally using the wercker command line tool.
 # Note: Ensure we have a wercker.env file available with the following content:
 # X_DOCKERHUB_PASSWORD=...
 # X_DOCKERHUB_USERNAME=...
