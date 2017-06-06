@@ -22,9 +22,6 @@ build:
         name: go build
         code: |
           CGO_ENABLED=0 GOOS=linux go build -a -o polibot ./...
-          #- script:
-          #name: copy binary
-          #code: cp polibot "$WERCKER_OUTPUT_DIR"        
     - internal/docker-scratch-push:
         username: $DOCKERHUB_USERNAME
         password: $DOCKERHUB_PASSWORD

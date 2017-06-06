@@ -1,5 +1,6 @@
 # polibot
 Example of using Wercker with a really simple go application
+[https://app.wercker.com/kristenfjacobs/polibot]
 
 To run locally
 
@@ -25,8 +26,7 @@ In order to deploy this application, we need a running Kubernetes cluster.
 
 See: https://kubernetes.io/docs/getting-started-guides/kubeadm/
 
-Create 3 machines, one master and 2 slaves, each using the Centos 7 (CentOS-7-2017.04.18-0) image, and having a shape of VM.Standard1.1. 
-Note: The network that the BMC machines use must be configured to allow UDP traffic, i.e. add the following stateless ingress and egress rules:
+Create 3 machines, one master and 2 slaves, each using the Centos 7 (CentOS-7-2017.04.18-0) image, with shape VM.Standard1.1. Note: The network that connects the instances must be configured to allow UDP traffic, i.e. add the following stateless ingress and egress rules:
 
 ```
 Source: 10.0.0.0/8
@@ -37,9 +37,9 @@ Allows: UDP traffic for ports: 8472
 ```
 
 Note: This opens UDP traffic on port 8472, thus allowing the encapsulated
-fannel traffic between nodes in the cluster. 
+flannel traffic between nodes in the cluster. 
 
-### To Install Kubernetes (On masters and slaves)
+### To Install Kubernetes (On Masters and Slaves)
 
 ```
 sudo su -
@@ -62,7 +62,7 @@ systemctl stop firewalld
 exit
 ```
 
-### To Start Kubernetes (On the master)
+### To Start Kubernetes (On the Master)
 
 Start kube (Note: Need to plugin the public IP of the master)
 
@@ -98,7 +98,7 @@ kubectl get nodes
 kubectl get pods --all-namespaces
 ```
 
-### To Join the Cluster (On the slave)
+### To Join the Cluster (On the Slave)
 
 Run this from each slave node to join the cluster (Get token from 'kubeadm init' output)
 Note: You have to do the (install) steps above to install kubeadm on each slave.
